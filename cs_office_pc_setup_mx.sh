@@ -1,21 +1,23 @@
 #!/bin/bash
-# CS_OFFICE_PC Setup Script for Debian 12 LXDE
-# Author: ChatGPT + You
-# Version: 1.0
+# CS_OFFICE_PC Setup Script for MX Linux (adds LXDE and configures retro theme)
+# Author: F1dg3t
+# Version: 1.1 (MX Linux Edition)
 
-# Config folder
 CONFIG_DIR="$HOME/.config/cs_office_pc"
-mkdir -p "$CONFIG_DIR"
 SOUND_DIR="$CONFIG_DIR/sounds"
+mkdir -p "$SOUND_DIR"
 
-# Dependencies check/install
-function install_dependencies() {
-    echo "Installing required packages..."
+function install_lxde() {
+    echo "Installing LXDE environment..."
     sudo apt update
-    sudo apt install -y git lxappearance pcmanfm xscreensaver xscreensaver-gl-extra gnome-icon-theme fonts-croscore
+    sudo apt install -y lxde lxdm
 }
 
-# Apply Chicago95 theme
+function install_dependencies() {
+    echo "Installing additional dependencies..."
+    sudo apt install -y git lxappearance pcmanfm xscreensaver xscreensaver-gl-extra gnome-icon-theme fonts-croscore ttf-mscorefonts-installer
+}
+
 function install_theme() {
     echo "Installing Chicago95 theme..."
     if [ ! -d "$HOME/.themes/Chicago95" ]; then
@@ -26,7 +28,6 @@ function install_theme() {
     echo "Theme installed. Set it via lxappearance."
 }
 
-# Set wallpaper (sample 4:3 image)
 function set_wallpaper() {
     echo "Setting retro wallpaper..."
     mkdir -p "$HOME/Pictures"
@@ -34,25 +35,20 @@ function set_wallpaper() {
     pcmanfm --set-wallpaper "$HOME/Pictures/cs_office_wall.jpg"
 }
 
-# Enable retro screensavers
 function enable_screensavers() {
     echo "Enabling vintage screensavers..."
     xscreensaver-command -exit
     echo "Run xscreensaver-demo to configure."
 }
 
-# Install MS fonts
 function install_fonts() {
     echo "Installing Microsoft fonts..."
     sudo apt install -y ttf-mscorefonts-installer
 }
 
-# Add Windows 2000 sounds (user must supply files)
 function install_sounds() {
     echo "== Add Windows 2000 Sound Pack =="
     mkdir -p "$SOUND_DIR"
-
-    # Manifest of expected files
     MANIFEST="$SOUND_DIR/expected_sounds.txt"
     cat <<EOF > "$MANIFEST"
 Windows XP Startup.wav
@@ -72,7 +68,6 @@ EOF
     echo "  $SOUND_DIR"
     echo
 
-    # Show progress on what's found
     echo "Checking for available sounds:"
     found_any=0
     while read -r sound_file; do
@@ -83,10 +78,8 @@ EOF
             echo "✘ Missing: $sound_file"
         fi
     done < "$MANIFEST"
-
     echo
 
-    # Optionally enable startup sound if present
     if [ -f "$SOUND_DIR/Windows XP Startup.wav" ]; then
         echo "Enabling startup sound..."
         mkdir -p "$HOME/.config/autostart"
@@ -101,35 +94,35 @@ EOF
     else
         echo "Startup sound not configured (missing Startup.wav)."
     fi
-
-    echo
     echo "You can re-run this option anytime to add more sounds later."
 }
 
-# Menu system
 function show_menu() {
     echo
-    echo "========= CS_OFFICE_PC Setup ========="
-    echo "1. Install dependencies"
-    echo "2. Apply retro theme (Chicago95)"
-    echo "3. Set retro wallpaper"
-    echo "4. Enable screensavers"
-    echo "5. Install MS fonts"
-    echo "6. Add Windows 2000 sound pack"
-    echo "7. Run all steps"
+    echo "========= CS_OFFICE_PC Setup for MX Linux ========="
+    echo "1. Install LXDE desktop environment"
+    echo "2. Install dependencies"
+    echo "3. Apply retro theme (Chicago95)"
+    echo "4. Set retro wallpaper"
+    echo "5. Enable screensavers"
+    echo "6. Install MS fonts"
+    echo "7. Add Windows 2000 sound pack"
+    echo "8. Run all steps"
     echo "0. Exit"
-    echo "======================================"
+    echo "===================================================="
     read -p "Choose an option: " choice
     echo
 
     case "$choice" in
-        1) install_dependencies ;;
-        2) install_theme ;;
-        3) set_wallpaper ;;
-        4) enable_screensavers ;;
-        5) install_fonts ;;
-        6) install_sounds ;;
-        7)
+        1) install_lxde ;;
+        2) install_dependencies ;;
+        3) install_theme ;;
+        4) set_wallpaper ;;
+        5) enable_screensavers ;;
+        6) install_fonts ;;
+        7) install_sounds ;;
+        8)
+            install_lxde
             install_dependencies
             install_theme
             set_wallpaper
@@ -142,7 +135,6 @@ function show_menu() {
     esac
 }
 
-# Run menu loop
 while true; do
     show_menu
 done
