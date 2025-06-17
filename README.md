@@ -1,15 +1,15 @@
-# 📄 CS\_OFFICE\_PC Setup Script
+# 📄 CS_OFFICE_PC Setup Script
 
-A retro-themed setup script for recreating the **Windows 2000/XP-style** desktop seen in `cs_office` (from Counter-Strike) on a **Debian 12 system using LXDE**.
+A retro-themed setup script for recreating the **Windows 2000/XP-style** desktop seen in `cs_office` (from Counter-Strike) on a **Debian 12** or **MX Linux** system using **LXDE**.
 
 ---
 
 ## 📦 Requirements
 
-* Debian 12 (Bookworm)
+* Debian 12 (Bookworm) or MX Linux
 * LXDE desktop environment
 
-Install LXDE if it's not already installed:
+Install LXDE if it's not already installed (for Debian):
 
 ```bash
 sudo apt update
@@ -18,20 +18,19 @@ sudo apt install task-lxde-desktop
 
 ---
 
-## 🚀 Getting Started
+## 🚀 Quick One-Liner Installs
 
-1. Clone or download the script:
+### Debian 12 LXDE Version
 
-   ```bash
-   wget https://your-server.com/cs_office_pc_setup.sh
-   chmod +x cs_office_pc_setup.sh
-   ```
+```bash
+bash <(curl -sL https://raw.githubusercontent.com/F1dg3tXD/cs_office-beefy-pc-style/main/cs_office_pc_setup_debian.sh)
+```
 
-2. Run the script:
+### MX Linux LXDE Version
 
-   ```bash
-   ./cs_office_pc_setup.sh
-   ```
+```bash
+bash <(curl -sL https://raw.githubusercontent.com/F1dg3tXD/cs_office-beefy-pc-style/main/cs_office_pc_setup_mx.sh)
+```
 
 ---
 
